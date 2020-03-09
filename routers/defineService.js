@@ -17,7 +17,7 @@ const errorResponse = (error, res) => {
 }
 const apiPrefix = '/api/v1.0'
 
-router.get(`${apiPrefix}/me`, hasAuthorization, (req, res) => {
+const getApi = (api, req, res) => {
     api.get(req.path, {headers: req.headers}).then(resp => {
         res.status(resp.status).send(resp.data)
     }).catch(error => {
@@ -25,22 +25,47 @@ router.get(`${apiPrefix}/me`, hasAuthorization, (req, res) => {
             res.status(error.response.status).send(error.response.data)
         } else {
             errorResponse(error, res)
-        }
+        }api.get(req.path, {headers: req.headers}).then(resp => {
+            res.status(resp.status).send(resp.data)
+        }).catch(error => {
+            if(error.response) {
+                res.status(error.response.status).send(error.response.data)
+            } else {
+                errorResponse(error, res)
+            }
+        })
     })
+}
+
+router.get(`${apiPrefix}/me`, hasAuthorization, (req, res) => {
+    getApi(api, req, res)
 })
+
+const publicActividadesUri = `${apiPrefix}/public/actividades`
+
+router.get(publicActividadesUri, (req, res) => {
+   getApi(api, req, res)
+})
+
 
 const actividadesUri = `${apiPrefix}/actividades`
 
-router.get(`${actividadesUri}`, hasAuthorization, (req, res) => {
-    api.get(req.path, {headers: req.headers}).then(resp => {
-        res.status(resp.status).send(resp.data)
-    }).catch(error => {
-        if(error.response) {
-            res.status(error.response.status).send(error.response.data)
-        } else {
-            errorResponse(error, res)
-        }
-    })
+router.get(`${actividadesUri}/user`, hasAuthorization, (req, res) => {
+    getApi(api, req, res)
+})
+
+
+const publicTareasUri = `${apiPrefix}/public/tareas`
+
+router.get(publicTareasUri, hasAuthorization, (req, res) => {
+    getApi(api, req, res)
+})
+
+
+const tareasUri = `${apiPrefix}/tareas`
+
+router.get(`${tareasUri}/user`, hasAuthorization, (req, res) => {
+    getApi(api, req, res)
 })
 
 module.exports = router
