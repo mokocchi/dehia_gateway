@@ -19,10 +19,10 @@ const apiPrefix = '/api/v1.0'
 
 router.get(`${apiPrefix}/me`, hasAuthorization, (req, res) => {
     api.get(req.path, {headers: req.headers}).then(resp => {
-        res.send(resp.data)
+        res.status(resp.status).send(resp.data)
     }).catch(error => {
         if(error.response) {
-            res.send(error.response.data)
+            res.status(error.response.status).send(error.response.data)
         } else {
             errorResponse(error, res)
         }
@@ -33,10 +33,10 @@ const actividadesUri = `${apiPrefix}/actividades`
 
 router.get(`${actividadesUri}`, hasAuthorization, (req, res) => {
     api.get(req.path, {headers: req.headers}).then(resp => {
-        res.send(resp.data)
+        res.status(resp.status).send(resp.data)
     }).catch(error => {
         if(error.response) {
-            res.send(error.response.data)
+            res.status(error.response.status).send(error.response.data)
         } else {
             errorResponse(error, res)
         }

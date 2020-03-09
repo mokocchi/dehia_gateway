@@ -19,10 +19,10 @@ const errorResponse = (error, res) => {
 
 router.post('/api/oauth/v2/token', hasCredentials, (req, res) => {
     api.post(req.path, req.body, {headers: req.headers}).then(resp => {
-        res.send(resp.data)
+        res.status(resp.status).send(resp.data)
     }).catch(error => {
         if(error.response) {
-            res.send(error.response.data)
+            res.status(error.response.status).send(error.response.data)
         } else {
             errorResponse(error, res)
         }
@@ -31,10 +31,10 @@ router.post('/api/oauth/v2/token', hasCredentials, (req, res) => {
 
 router.get('/api/validate', hasAuthorization, (req, res) => {
     api.get(req.path, {headers: req.headers}).then(resp => {
-        res.send(resp.data)
+        res.status(resp.status).send(resp.data)
     }).catch(error => {
         if(error.response) {
-            res.send(error.response.data)
+            res.status(error.response.status).send(error.response.data)
         } else {
             errorResponse(error, res)
         }
