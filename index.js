@@ -1,8 +1,11 @@
 var express = require('express');
-var app = express();
+var cors = require('cors')
 var dotenv = require('dotenv').config();
 var router = require('./routers/router')
 var bodyParser = require('body-parser');
+var app = express();
+app.use(cors({origin:true, allowedHeaders: ['Content-Type', 'Authorization', 'X-AUTH-TOKEN']}))
+app.options("*")
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }));

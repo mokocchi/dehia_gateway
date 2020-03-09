@@ -1,10 +1,9 @@
 var express = require('express');
 var router = express.Router()
 const apiAdapter = require('./apiAdapter')
-const hasCredentials = require('../controller/credentialsChecker')
 const hasAuthorization = require('../controller/hasAuthorization')
 
-const api = apiAdapter(process.env.AUTH_BASE_URL)
+const api = apiAdapter(process.env.DEFINE_BASE_URL)
 
 const errorResponse = (error, res) => {
     console.log(error.message)
@@ -16,9 +15,10 @@ const errorResponse = (error, res) => {
         more_info: "http://localhost:8000/api/doc"
     })
 }
+const apiPrefix = '/api/v1.0'
 
-router.post('/api/oauth/v2/token', hasCredentials, (req, res) => {
-    api.post(req.path, req.body, {headers: req.headers}).then(resp => {
+router.get(`${apiPrefix}/me`, hasAuthorization, (req, res) => {
+    api.get(req.path, {headers: req.headers}).then(resp => {
         res.send(resp.data)
     }).catch(error => {
         if(error.response) {
@@ -29,7 +29,9 @@ router.post('/api/oauth/v2/token', hasCredentials, (req, res) => {
     })
 })
 
-router.get('/api/validate', hasAuthorization, (req, res) => {
+const actividadesUri = `${apiPrefix}/actividades`
+
+router.get(`${actividadesUri}`, hasAuthorization, (req, res) => {
     api.get(req.path, {headers: req.headers}).then(resp => {
         res.send(resp.data)
     }).catch(error => {
