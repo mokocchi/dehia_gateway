@@ -1,4 +1,5 @@
 var express = require('express');
+var querystring = require('querystring')
 var router = express.Router()
 const apiAdapter = require('./apiAdapter')
 const hasCredentials = require('../controller/credentialsChecker')
@@ -18,7 +19,11 @@ const errorResponse = (error, res) => {
 }
 
 router.post('/api/oauth/v2/token', hasCredentials, (req, res) => {
-    api.post(req.path, req.body, {headers: req.headers}).then(resp => {
+    let body = req.body
+    if(req.header("x-auth-credentials")) {
+        body = querystring.encode(req.body)
+    }
+    api.post(req.path, body, {headers: req.headers}).then(resp => {
         res.status(resp.status).send(resp.data)
     }).catch(error => {
         if(error.response) {

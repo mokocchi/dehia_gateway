@@ -1,5 +1,5 @@
 module.exports = (req, res, next) => {
-    if (!req.get('X-AUTH-TOKEN')) {
+    if (!req.get('X-AUTH-TOKEN') && !req.get('X-AUTH-CREDENTIALS')) {
         res.status(400).send({
             status: 400,
             developer_message: "No se encontró el header de autenticación",

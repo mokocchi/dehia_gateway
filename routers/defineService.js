@@ -25,21 +25,50 @@ const getApi = (api, req, res) => {
             res.status(error.response.status).send(error.response.data)
         } else {
             errorResponse(error, res)
-        }api.get(req.path, {headers: req.headers}).then(resp => {
-            res.status(resp.status).send(resp.data)
-        }).catch(error => {
-            if(error.response) {
-                res.status(error.response.status).send(error.response.data)
-            } else {
-                errorResponse(error, res)
-            }
-        })
+        }
+    })
+}
+
+const postApi = (api, req, res) => {
+    api.post(req.path, req.body, {headers: req.headers}).then(resp => {
+        res.status(resp.status).send(resp.data)
+    }).catch(error => {
+        if(error.response) {
+            res.status(error.response.status).send(error.response.data)
+        } else {
+            errorResponse(error, res)
+        }
     })
 }
 
 router.get(`${apiPrefix}/me`, hasAuthorization, (req, res) => {
     getApi(api, req, res)
 })
+
+router.get(`${apiPrefix}/public/dominios`, (req, res) => {
+    getApi(api, req, res)
+})
+
+router.post(`${apiPrefix}/dominios`, (req, res) => {
+    postApi(api, req, res)
+})
+
+router.get(`${apiPrefix}/public/idiomas`, (req, res) => {
+    getApi(api, req, res)
+})
+
+router.get(`${apiPrefix}/public/tipos-planificacion`, (req, res) => {
+    getApi(api, req, res)
+})
+
+router.get(`${apiPrefix}/public/tipos-tarea`, (req, res) => {
+    getApi(api, req, res)
+})
+
+router.get(`${apiPrefix}/public/estados`, (req, res) => {
+    getApi(api, req, res)
+})
+
 
 const publicActividadesUri = `${apiPrefix}/public/actividades`
 
@@ -54,10 +83,18 @@ router.get(`${actividadesUri}/user`, hasAuthorization, (req, res) => {
     getApi(api, req, res)
 })
 
+router.get(`${actividadesUri}/*/`, hasAuthorization, (req, res) => {
+    getApi(api, req, res)
+})
+
+router.post(actividadesUri, hasAuthorization, (req, res) => {
+    postApi(api, req, res)
+})
+
 
 const publicTareasUri = `${apiPrefix}/public/tareas`
 
-router.get(publicTareasUri, hasAuthorization, (req, res) => {
+router.get(publicTareasUri, (req, res) => {
     getApi(api, req, res)
 })
 
@@ -66,6 +103,14 @@ const tareasUri = `${apiPrefix}/tareas`
 
 router.get(`${tareasUri}/user`, hasAuthorization, (req, res) => {
     getApi(api, req, res)
+})
+
+router.post(tareasUri, hasAuthorization, (req, res) => {
+    postApi(api, req, res)
+})
+
+router.post(`${tareasUri}/*/plano`, hasAuthorization, (req, res) => {
+    postApi(api, req, res)
 })
 
 module.exports = router
