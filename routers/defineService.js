@@ -1,5 +1,7 @@
-var express = require('express');
+var express = require('express')
 var router = express.Router()
+var multer = require('multer')
+var upload = multer()
 const apiAdapter = require('./apiAdapter')
 const hasAuthorization = require('../controller/hasAuthorization')
 
@@ -109,7 +111,7 @@ router.post(tareasUri, hasAuthorization, (req, res) => {
     postApi(api, req, res)
 })
 
-router.post(`${tareasUri}/*/plano`, hasAuthorization, (req, res) => {
+router.post(`${tareasUri}/*/plano`, upload.array('plano', 1), hasAuthorization, (req, res) => {
     postApi(api, req, res)
 })
 
