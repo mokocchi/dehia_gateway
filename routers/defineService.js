@@ -1,4 +1,5 @@
 var express = require('express')
+const rp = require('request-promise')
 var router = express.Router()
 var FormData = require('form-data')
 var multer = require('multer')
@@ -126,7 +127,18 @@ router.post(tareasUri, hasAuthorization, (req, res) => {
 })
 
 router.post(`${tareasUri}/*/plano`, upload.single('plano'), hasAuthorization, (req, res) => {
-    postApi(api, req, res, true)
+    rp({
+        method: 'POST',
+        uri: process.env.DEFINE_BASE_URL + req.path,
+        headers: req.headers,
+        formData: {
+            file: req.file.buffer
+        }
+    }).then(res => {
+        console.log(res)
+    }).catch(err => {
+        console.error(err)
+    })
 })
 
 module.exports = router
