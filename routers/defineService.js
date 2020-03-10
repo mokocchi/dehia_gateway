@@ -1,5 +1,6 @@
 var express = require('express')
 var router = express.Router()
+var FormData = require('form-data')
 var multer = require('multer')
 var upload = multer()
 const apiAdapter = require('./apiAdapter')
@@ -31,8 +32,21 @@ const getApi = (api, req, res) => {
     })
 }
 
-const postApi = (api, req, res) => {
-    api.post(req.path, req.body, {headers: req.headers}).then(resp => {
+async function postApi (api, req, res, files = false) {
+    let headers = req.headers
+    let body = req.body
+    let timeout = 10000
+    if(files) {
+        const formData = new FormData()
+        formData.append("plano", req.file.buffer)
+        body = formData
+        timeout = 100000
+        headers = {
+            ...headers, 
+            ...formData.getHeaders()
+        }
+    }
+    api.post(req.path, body, {headers: headers, timeout: timeout}).then(resp => {
         res.status(resp.status).send(resp.data)
     }).catch(error => {
         if(error.response) {
@@ -111,8 +125,8 @@ router.post(tareasUri, hasAuthorization, (req, res) => {
     postApi(api, req, res)
 })
 
-router.post(`${tareasUri}/*/plano`, upload.array('plano', 1), hasAuthorization, (req, res) => {
-    postApi(api, req, res)
+router.post(`${tareasUri}/*/plano`, upload.single('plano'), hasAuthorization, (req, res) => {
+    postApi(api, req, res, true)
 })
 
 module.exports = router
