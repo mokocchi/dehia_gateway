@@ -1,0 +1,16 @@
+version: '3.3'
+services: 
+  gateway:
+    container_name: gateway
+    build:
+      context: .
+      dockerfile: ./docker/gateway/Dockerfile
+    expose:
+        - 8000
+    networks:
+      dehia:
+        aliases:
+          - gateway
+networks:
+  dehia:
+    external: true

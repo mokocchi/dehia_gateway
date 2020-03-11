@@ -22,10 +22,10 @@ const errorResponse = (error, res) => {
 const apiPrefix = '/api/v1.0'
 
 const getApi = (api, req, res) => {
-    api.get(req.path, {headers: req.headers}).then(resp => {
+    api.get(req.path, { headers: req.headers }).then(resp => {
         res.status(resp.status).send(resp.data)
     }).catch(error => {
-        if(error.response) {
+        if (error.response) {
             res.status(error.response.status).send(error.response.data)
         } else {
             errorResponse(error, res)
@@ -33,31 +33,24 @@ const getApi = (api, req, res) => {
     })
 }
 
-async function postApi (api, req, res, files = false) {
+async function postApi(api, req, res, files = false) {
     let headers = req.headers
     let body = req.body
     let timeout = 10000
-    if(files) {
+    if (files) {
         const formData = new FormData()
         formData.append("plano", req.file.buffer)
         body = formData
         timeout = 100000
         headers = {
-            ...headers, 
+            ...headers,
             ...formData.getHeaders()
         }
-        formData.pipe(concat({ encoding: 'buffer' }, async data => {
-            const r = await api.post(req.path, data, {
-              headers: headers
-            })
-            console.log(r.data)
-            return
-        }))
     }
-    api.post(req.path, body, {headers: headers, timeout: timeout}).then(resp => {
+    api.post(req.path, body, { headers: headers, timeout: timeout }).then(resp => {
         res.status(resp.status).send(resp.data)
     }).catch(error => {
-        if(error.response) {
+        if (error.response) {
             res.status(error.response.status).send(error.response.data)
         } else {
             errorResponse(error, res)
@@ -97,7 +90,7 @@ router.get(`${apiPrefix}/public/estados`, (req, res) => {
 const publicActividadesUri = `${apiPrefix}/public/actividades`
 
 router.get(publicActividadesUri, (req, res) => {
-   getApi(api, req, res)
+    getApi(api, req, res)
 })
 
 
