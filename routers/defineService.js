@@ -1,5 +1,5 @@
 var express = require('express')
-const rp = require('request-promise')
+var concat = require('concat-stream')
 var router = express.Router()
 var FormData = require('form-data')
 var multer = require('multer')
@@ -46,6 +46,13 @@ async function postApi (api, req, res, files = false) {
             ...headers, 
             ...formData.getHeaders()
         }
+        formData.pipe(concat({ encoding: 'buffer' }, async data => {
+            const r = await api.post(req.path, data, {
+              headers: headers
+            })
+            console.log(r.data)
+            return
+        }))
     }
     api.post(req.path, body, {headers: headers, timeout: timeout}).then(resp => {
         res.status(resp.status).send(resp.data)
@@ -127,18 +134,7 @@ router.post(tareasUri, hasAuthorization, (req, res) => {
 })
 
 router.post(`${tareasUri}/*/plano`, upload.single('plano'), hasAuthorization, (req, res) => {
-    rp({
-        method: 'POST',
-        uri: process.env.DEFINE_BASE_URL + req.path,
-        headers: req.headers,
-        formData: {
-            file: req.file.buffer
-        }
-    }).then(res => {
-        console.log(res)
-    }).catch(err => {
-        console.error(err)
-    })
+    postApi(api, req, res, true)
 })
 
 module.exports = router
