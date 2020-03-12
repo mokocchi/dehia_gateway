@@ -1,5 +1,6 @@
 var express = require('express');
 var cors = require('cors')
+var fileUpload = require('express-fileupload')
 var dotenv = require('dotenv').config();
 var router = require('./routers/router')
 var bodyParser = require('body-parser');
@@ -13,6 +14,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/', (req, res) => {
     res.send("DEHIA API Gateway")
 })
+
+app.use(fileUpload({
+    useTempFiles : true,
+    tempFileDir : '/tmp/'
+}))
 
 app.use(router)
 

@@ -1,9 +1,7 @@
 var express = require('express')
-var concat = require('concat-stream')
-var router = express.Router()
+var fs = require('fs')
 var FormData = require('form-data')
-var multer = require('multer')
-var upload = multer()
+var router = express.Router()
 const apiAdapter = require('./apiAdapter')
 const hasAuthorization = require('../controller/hasAuthorization')
 
@@ -39,13 +37,14 @@ async function postApi(api, req, res, files = false) {
     let timeout = 10000
     if (files) {
         const formData = new FormData()
-        formData.append("plano", req.file.buffer)
+        formData.append("plano",  fs.createReadStream(req.files.plano.tempFilePath), "image.png")
         body = formData
         timeout = 100000
         headers = {
             ...headers,
             ...formData.getHeaders()
         }
+        headers["transfer-encoding"] = 'chunked'
     }
     api.post(req.path, body, { headers: headers, timeout: timeout }).then(resp => {
         res.status(resp.status).send(resp.data)
@@ -126,7 +125,7 @@ router.post(tareasUri, hasAuthorization, (req, res) => {
     postApi(api, req, res)
 })
 
-router.post(`${tareasUri}/*/plano`, upload.single('plano'), hasAuthorization, (req, res) => {
+router.post(`${tareasUri}/*/plano`, hasAuthorization, (req, res) => {
     postApi(api, req, res, true)
 })
 
