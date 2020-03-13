@@ -34,6 +34,11 @@ router.post('/api/oauth/v2/token', hasCredentials, (req, res) => {
     })
 })
 
+router.get(`/api/v1.0/me`, hasAuthorization, (req, res, next) => {
+    req.uri = '/api/validate';
+    next('route')
+})
+
 router.get('/api/validate', hasAuthorization, (req, res) => {
     api.get(req.path, {headers: req.headers}).then(resp => {
         res.status(resp.status).send(resp.data)

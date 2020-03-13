@@ -57,10 +57,6 @@ async function postApi(api, req, res, files = false) {
     })
 }
 
-router.get(`${apiPrefix}/me`, hasAuthorization, (req, res) => {
-    getApi(api, req, res)
-})
-
 router.get(`${apiPrefix}/public/dominios`, (req, res) => {
     getApi(api, req, res)
 })
