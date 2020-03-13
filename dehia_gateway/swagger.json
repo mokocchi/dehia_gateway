@@ -1,0 +1,1320 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Este es el servidor de la plataforma DEHIA.",
+    "version": "1.0.3",
+    "title": "Plataforma DEHIA"
+  },
+  "host": "localhost:8000",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Operaciones de autenticación y autorización",
+      "externalDocs": {
+        "description": "Parte de DEHIA Auth",
+        "url": ""
+      }
+    },
+    {
+      "name": "Actividad",
+      "description": "Operaciones sobre actividades",
+      "externalDocs": {
+        "description": "Parte de DEHIA Define",
+        "url": ""
+      }
+    },
+    {
+      "name": "Tarea",
+      "description": "Operaciones sobre tareas",
+      "externalDocs": {
+        "description": "Parte de DEHIA Define",
+        "url": ""
+      }
+    },
+    {
+      "name": "Planificación",
+      "description": "Operaciones sobre planificaciones",
+      "externalDocs": {
+        "description": "Parte de DEHIA Define",
+        "url": ""
+      }
+    },
+    {
+      "name": "Enumerativos",
+      "description": "Listados de tipos enumerativos",
+      "externalDocs": {
+        "description": "Parte de DEHIA Define",
+        "url": ""
+      }
+    }
+  ],
+  "schemes": ["https", "http"],
+  "paths": {
+    "/api/v1.0/actividades": {
+      "get": {
+        "summary": "Lista todas las actividades del sistema",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer token",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Actividad"]
+      },
+      "post": {
+        "summary": "Crea una actividad",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer token",
+            "type": "string"
+          },
+          {
+            "name": "nombre",
+            "in": "body",
+            "required": true,
+            "description": "Nombre de la actividad",
+            "schema": [],
+            "type": "string"
+          },
+          {
+            "name": "objetivo",
+            "in": "body",
+            "required": true,
+            "description": "Objetivo de la actividad",
+            "schema": [],
+            "type": "string"
+          },
+          {
+            "name": "codigo",
+            "in": "body",
+            "required": true,
+            "description": "Código que identifica a la actividad",
+            "schema": [],
+            "type": "string"
+          },
+          {
+            "name": "dominio",
+            "in": "body",
+            "required": true,
+            "description": "Id del dominio de la actividad",
+            "schema": [],
+            "type": "integer"
+          },
+          {
+            "name": "idioma",
+            "in": "body",
+            "required": true,
+            "description": "Id del idioma de la actividad",
+            "schema": [],
+            "type": "integer"
+          },
+          {
+            "name": "tipoPlanificacion",
+            "in": "body",
+            "required": true,
+            "description": "Id del tipo de planificación de la actividad",
+            "schema": [],
+            "type": "integer"
+          },
+          {
+            "name": "estado",
+            "in": "body",
+            "required": true,
+            "description": "Id del estado de la actividad",
+            "schema": [],
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "La actividad fue creada"
+          },
+          "400": {
+            "description": "Hubo un problema con la petición"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Actividad"]
+      }
+    },
+    "/api/v1.0/actividades/user": {
+      "get": {
+        "summary": "Lista las actividades del usuario actual",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer token",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Actividad"]
+      }
+    },
+    "/api/v1.0/actividades/{id}": {
+      "get": {
+        "summary": "Muestra una actividad",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer token",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Id de la actividad",
+            "schema": [],
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes o La actividad es privada"
+          },
+          "404": {
+            "description": "Actividad no encontrada"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Actividad"]
+      },
+      "patch": {
+        "summary": "Actualiza una actividad",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer token",
+            "type": "string"
+          },
+          {
+            "name": "nombre",
+            "in": "body",
+            "description": "Nombre de la actividad",
+            "schema": [],
+            "type": "string"
+          },
+          {
+            "name": "objetivo",
+            "in": "body",
+            "description": "Objetivo de la actividad",
+            "schema": [],
+            "type": "string"
+          },
+          {
+            "name": "dominio",
+            "in": "body",
+            "description": "Id del dominio de la actividad",
+            "schema": [],
+            "type": "integer"
+          },
+          {
+            "name": "idioma",
+            "in": "body",
+            "description": "Id del idioma de la actividad",
+            "schema": [],
+            "type": "integer"
+          },
+          {
+            "name": "tipoPlanificacion",
+            "in": "body",
+            "description": "Id del tipo de planificación de la actividad",
+            "schema": [],
+            "type": "integer"
+          },
+          {
+            "name": "estado",
+            "in": "body",
+            "description": "Id del estado de la actividad",
+            "schema": [],
+            "type": "integer"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "400": {
+            "description": "Hubo un problema con la petición"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes"
+          },
+          "404": {
+            "description": "Actividad no encontrada"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Actividad"]
+      },
+      "delete": {
+        "summary": "Elimina una actividad",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer token",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "La actividad fue borrada"
+          },
+          "400": {
+            "description": "Hubo un problema con la petición"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes"
+          },
+          "404": {
+            "description": "Actividad no encontrada"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Actividad"]
+      }
+    },
+    "/api/v1.0/actividades/{id}/tareas": {
+      "get": {
+        "summary": "Lista las tareas de una actividad",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer token",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Id de la actividad",
+            "schema": [],
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Actividad"]
+      },
+      "put": {
+        "summary": "Asigna un conjunto de tareas a una actividad",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer token",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Id de la actividad",
+            "schema": [],
+            "type": "string"
+          },
+          {
+            "name": "tareas",
+            "in": "body",
+            "required": true,
+            "description": "Ids de la tareas",
+            "schema": {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            "type": "array"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "La operación fue exitosa"
+          },
+          "400": {
+            "description": "Hubo un problema con la petición"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Actividad"]
+      }
+    },
+    "/api/v1.0/dominios": {
+      "post": {
+        "summary": "Crea un dominio.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "type": "string"
+          },
+          {
+            "name": "nombre",
+            "in": "body",
+            "description": "Nombre del dominio",
+            "schema": [],
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "El dominio ya existe",
+            "schema": { "$ref": "#/definitions/Dominio" }
+          },
+          "400": {
+            "description": "Hubo un problema con la petición"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Enumerativos"]
+      }
+    },
+    "/api/v1.0/dominios/{id}": {
+      "delete": {
+        "summary": "Elimina un dominio",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer token",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "El dominio fue borrado"
+          },
+          "400": {
+            "description": "Hubo un problema con la petición"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes"
+          },
+          "404": {
+            "description": "Dominio no encontrado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Enumerativos"]
+      }
+    },
+    "/api/v1.0/me": {
+      "get": {
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer token",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Auth"]
+      }
+    },
+    "/api/v1.0/planificaciones/{id}": {
+      "get": {
+        "summary": "Muestra la planificación de una actividad",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer token",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Id de la actividad",
+            "schema": [],
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Planificación"]
+      },
+      "put": {
+        "summary": "Setea la planificacion de una actividad",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer token",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Id de la actividad",
+            "schema": [],
+            "type": "string"
+          },
+          {
+            "name": "saltos",
+            "in": "body",
+            "required": true,
+            "description": "Saltos para agregar a la actividad",
+            "schema": {
+              "items": {
+                "required": ["origen", "condicion", "destinos"],
+                "properties": {
+                  "origen": {
+                    "description": "Código de la tarea origen",
+                    "type": "string"
+                  },
+                  "condicion": {
+                    "description": "Condición del salto",
+                    "type": "string",
+                    "enum": ["ALL", "YES", "NO", "YES_TASK", "NO_TASK"]
+                  },
+                  "respuesta": {
+                    "description": "Respuesta o tarea que condiciona el salto",
+                    "type": "string"
+                  },
+                  "destinos": {
+                    "description": "Códigos de las tareas destino",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "type": "string"
+          },
+          {
+            "name": "opcionales",
+            "in": "body",
+            "required": true,
+            "description": "Id de las tareas opcionales",
+            "schema": {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            "type": "string"
+          },
+          {
+            "name": "iniciales",
+            "in": "body",
+            "required": true,
+            "description": "Id de las tareas iniciales",
+            "schema": {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes"
+          },
+          "404": {
+            "description": "Actividad o tarea no encontrada"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Planificación"]
+      }
+    },
+    "/api/v1.0/public/planificaciones/{id}": {
+      "get": {
+        "summary": "Muestra la planificación de una actividad",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Id de la actividad",
+            "schema": [],
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Planificación"]
+      }
+    },
+    "/api/v1.0/tareas": {
+      "get": {
+        "summary": "Lista todas las tareas del sistema",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Tarea"]
+      },
+      "post": {
+        "summary": "Crear Tarea",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "type": "string"
+          },
+          {
+            "name": "nombre",
+            "in": "body",
+            "description": "Nombre de la tarea",
+            "schema": [],
+            "type": "string"
+          },
+          {
+            "name": "consigna",
+            "in": "body",
+            "description": "Consigna de la tarea",
+            "schema": [],
+            "type": "string"
+          },
+          {
+            "name": "codigo",
+            "in": "body",
+            "description": "Codigo de la tarea",
+            "schema": [],
+            "type": "integer"
+          },
+          {
+            "name": "tipo",
+            "in": "body",
+            "description": "Tipo de tarea",
+            "schema": [],
+            "type": "integer"
+          },
+          {
+            "name": "dominio",
+            "in": "body",
+            "description": "Dominio de la tarea",
+            "schema": [],
+            "type": "integer"
+          },
+          {
+            "name": "estado",
+            "in": "body",
+            "description": "Id del estado de la tarea",
+            "schema": [],
+            "type": "integer"
+          },
+          {
+            "name": "extraData",
+            "in": "body",
+            "description": "Id del estado de la tarea",
+            "schema": {
+              "items": {
+                "required": ["elements"],
+                "properties": {
+                  "elements": {
+                    "description": "Elementos de la tarea",
+                    "items": {
+                      "required": ["code", "name"],
+                      "properties": {
+                        "code": {
+                          "description": "Código del elemento",
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Nombre del elemento",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "validElements": {
+                    "description": "Elementos válidos de la tarea",
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "byScore": {
+                    "description": "Criterios de contadores de la tarea",
+                    "items": {
+                      "required": ["name", "message", "scores"],
+                      "properties": {
+                        "name": {
+                          "description": "Nombre del criterio",
+                          "type": "string"
+                        },
+                        "message": {
+                          "description": "Mensaje del criterio",
+                          "type": "string"
+                        },
+                        "scores": {
+                          "description": "Criterios de contadores de la tarea",
+                          "items": {
+                            "properties": {
+                              "[codigo]": {
+                                "description": "Valor del contador para el elemento",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "type": "array"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "La tarea ya existe"
+          },
+          "201": {
+            "description": "La tarea fue creada"
+          },
+          "400": {
+            "description": "Hubo un problema con la petición"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Tarea"]
+      }
+    },
+    "/api/v1.0/tareas/user": {
+      "get": {
+        "summary": "Lista las tareas del usuario actual",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Tarea"]
+      }
+    },
+    "/api/v1.0/tareas/{id}": {
+      "get": {
+        "summary": "Muestra una tarea",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Tarea"]
+      }
+    },
+    "/api/v1.0/tareas/{id}/plano": {
+      "post": {
+        "summary": "Agregar plano a una tarea",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token",
+            "type": "string"
+          },
+          {
+            "name": "extra",
+            "in": "formData",
+            "description": "Plano de la tarea",
+            "schema": [],
+            "type": "file"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "400": {
+            "description": "Hubo un problema con la petición"
+          },
+          "401": {
+            "description": "No autorizado"
+          },
+          "403": {
+            "description": "Permisos insuficientes"
+          },
+          "404": {
+            "description": "No se encontró la tarea"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Tarea"]
+      }
+    },
+    "/api/oauth/v2/token": {
+      "post": {
+        "summary": "Crea un token a cambio de credenciales o un id_token de google válido",
+        "parameters": [
+          {
+            "name": "X-AUTH-TOKEN",
+            "in": "header",
+            "description": "Indicates a google id_token flow",
+            "type": "string"
+          },
+          {
+            "name": "X-AUTH-CREDENTIALS",
+            "in": "header",
+            "description": "Indicates a client_credentials flow",
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "body",
+            "description": "The google id_token from the client",
+            "schema": [],
+            "type": "string"
+          },
+          {
+            "name": "client_id",
+            "in": "formData",
+            "description": "The OAuth client id",
+            "type": "string"
+          },
+          {
+            "name": "client_secret",
+            "in": "formData",
+            "description": "The OAuth client secret",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The token was returned"
+          },
+          "400": {
+            "description": "There was a problem with the request"
+          }
+        },
+        "tags": ["Auth"]
+      }
+    },
+    "/api/v1.0/public/actividades": {
+      "get": {
+        "summary": "Lista todas las actividades públicas",
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Actividad"]
+      }
+    },
+    "/api/v1.0/public/actividades/{id}": {
+      "get": {
+        "summary": "Muestra una actividad pública",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Id de la actividad",
+            "schema": [],
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Actividad"]
+      }
+    },
+    "/api/v1.0/public/dominios": {
+      "get": {
+        "summary": "Lista todos los dominios",
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Enumerativos"]
+      }
+    },
+    "/api/v1.0/public/dominios/{id}": {
+      "get": {
+        "summary": "Muestra un dominio",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Enumerativos"]
+      }
+    },
+    "/api/v1.0/public/estados": {
+      "get": {
+        "summary": "Lista todos los estados",
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Enumerativos"]
+      }
+    },
+    "/api/v1.0/public/idiomas": {
+      "get": {
+        "summary": "Lista todos los idiomas",
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Enumerativos"]
+      }
+    },
+    "/api/v1.0/public/tareas": {
+      "get": {
+        "summary": "Lista todas las tareas",
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Tarea"]
+      }
+    },
+    "/api/v1.0/public/tareas/{id}": {
+      "get": {
+        "summary": "Shows a Tarea.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Tarea"]
+      }
+    },
+    "/api/v1.0/public/tipos-planificacion": {
+      "get": {
+        "summary": "Lista todos los tipos de planificación",
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Enumerativos"]
+      }
+    },
+    "/api/v1.0/public/tipos-tarea": {
+      "get": {
+        "summary": "Lista todos los tipos de tarea",
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        },
+        "tags": ["Enumerativos"]
+      }
+    },
+    "/api/v1.0/public/actividades/{id}/data": {
+      "get": {
+        "summary": "Download the JSON definition for the Actividad.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Dominio": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer", "format": "int64" },
+        "nombre": { "type": "string" }
+      }
+    },
+    "Pet": {
+      "type": "object",
+      "required": ["name", "photoUrls"],
+      "properties": {
+        "id": { "type": "integer", "format": "int64" },
+        "category": { "$ref": "#/definitions/Category" },
+        "name": { "type": "string", "example": "doggie" },
+        "photoUrls": {
+          "type": "array",
+          "xml": { "wrapped": true },
+          "items": { "type": "string", "xml": { "name": "photoUrl" } }
+        },
+        "tags": {
+          "type": "array",
+          "xml": { "wrapped": true },
+          "items": { "xml": { "name": "tag" }, "$ref": "#/definitions/Tag" }
+        },
+        "status": {
+          "type": "string",
+          "description": "pet status in the store",
+          "enum": ["available", "pending", "sold"]
+        }
+      },
+      "xml": { "name": "Pet" }
+    },
+    "Tag": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer", "format": "int64" },
+        "name": { "type": "string" }
+      },
+      "xml": { "name": "Tag" }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": { "type": "integer", "format": "int32" },
+        "type": { "type": "string" },
+        "message": { "type": "string" }
+      }
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer", "format": "int64" },
+        "petId": { "type": "integer", "format": "int64" },
+        "quantity": { "type": "integer", "format": "int32" },
+        "shipDate": { "type": "string", "format": "date-time" },
+        "status": {
+          "type": "string",
+          "description": "Order Status",
+          "enum": ["placed", "approved", "delivered"]
+        },
+        "complete": { "type": "boolean" }
+      },
+      "xml": { "name": "Order" }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer", "format": "int64" },
+        "username": { "type": "string" },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "email": { "type": "string" },
+        "password": { "type": "string" },
+        "phone": { "type": "string" },
+        "userStatus": {
+          "type": "integer",
+          "format": "int32",
+          "description": "User Status"
+        }
+      },
+      "xml": { "name": "User" }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}

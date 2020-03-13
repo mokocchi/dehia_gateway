@@ -1,6 +1,7 @@
 var express = require('express');
 var querystring = require('querystring')
 var router = express.Router()
+const {getApi} = require('./utils')
 const apiAdapter = require('./apiAdapter')
 const hasCredentials = require('../controller/credentialsChecker')
 const hasAuthorization = require('../controller/hasAuthorization')
@@ -34,21 +35,20 @@ router.post('/api/oauth/v2/token', hasCredentials, (req, res) => {
     })
 })
 
-router.get(`/api/v1.0/me`, hasAuthorization, (req, res, next) => {
-    req.uri = '/api/validate';
-    next('route')
-})
-
-router.get('/api/validate', hasAuthorization, (req, res) => {
-    api.get(req.path, {headers: req.headers}).then(resp => {
+router.get('/api/v1.0/me', hasAuthorization, (req, res, next) => {
+    api.get('/api/validate', { headers: req.headers }).then(resp => {
         res.status(resp.status).send(resp.data)
     }).catch(error => {
-        if(error.response) {
+        if (error.response) {
             res.status(error.response.status).send(error.response.data)
         } else {
             errorResponse(error, res)
         }
     })
+})
+
+router.get('/api/validate', hasAuthorization, (req, res) => {
+    getApi(api, req, res)
 })
 
 module.exports = router

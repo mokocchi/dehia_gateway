@@ -5,6 +5,8 @@ var dotenv = require('dotenv').config();
 var router = require('./routers/router')
 var bodyParser = require('body-parser');
 var app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 app.use(cors({origin:true, allowedHeaders: ['Content-Type', 'Authorization', 'X-AUTH-TOKEN']}))
 app.options("*")
 
@@ -14,6 +16,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/', (req, res) => {
     res.send("DEHIA API Gateway")
 })
+
+router.use('/api-docs', swaggerUi.serve);
+router.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
 app.use(fileUpload({
     useTempFiles : true,
