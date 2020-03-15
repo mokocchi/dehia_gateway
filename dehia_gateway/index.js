@@ -11,6 +11,21 @@ app.use(cors({origin:true, allowedHeaders: ['Content-Type', 'Authorization', 'X-
 app.options("*")
 
 app.use(bodyParser.json())
+
+app.use(function (error, req, res, next) {
+  if (error instanceof SyntaxError) {
+    res.send({
+        "status": "400",
+        "developer_message": "JSON mal formado",
+        "user_message": "Hubo un problema con la petición",
+        "error_code": 1,
+        "more_info": "http://localhost:8000/api/doc"
+      })
+  } else {
+    next();
+  }
+});
+
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
