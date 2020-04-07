@@ -16,13 +16,13 @@ const getApi = (api, req, res, download = false) => {
     api.get(req.path, { headers: req.headers }).then(resp => {
         if (download) {
             if (resp.status === 200) {
-                if (resp["educationalActivity"]){
-                    filename = resp["educationalActivity"]["name"]
+                if (resp.data["educationalActivity"]){
+                    filename = resp.data["educationalActivity"]["name"]
                 } else {
-                    filename = "activity.json"
+                    filename = "activity"
                 }
                 data = JSON.stringify(resp.data);
-                res.setHeader('Content-disposition', `attachment; filename= ${filename}`);
+                res.setHeader('Content-disposition', `attachment; filename= "${filename}.json"`);
                 res.setHeader('Content-type', 'application/json');
                 res.write(data, function (err) {
                     res.end();
