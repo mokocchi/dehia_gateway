@@ -19,6 +19,10 @@ router.get(`${publicActividadesUri}/:id`, (req, res) => {
     getApi(api, req, res)
 })
 
+router.get(`${publicActividadesUri}/:id/data`, (req, res) => {
+    getApi(api, req, res, true)
+})
+
 router.get(`${publicActividadesUri}/:id/tareas`, (req, res) => {
     getApi(api, req, res)
 })

@@ -12,9 +12,27 @@ const errorResponse = (error, res) => {
     })
 }
 
-const getApi = (api, req, res) => {
+const getApi = (api, req, res, download = false) => {
     api.get(req.path, { headers: req.headers }).then(resp => {
-        res.status(resp.status).send(resp.data)
+        if (download) {
+            if (resp.status === 200) {
+                if (resp["educationalActivity"]){
+                    filename = resp["educationalActivity"]["name"]
+                } else {
+                    filename = "activity.json"
+                }
+                data = JSON.stringify(resp.data);
+                res.setHeader('Content-disposition', `attachment; filename= ${filename}`);
+                res.setHeader('Content-type', 'application/json');
+                res.write(data, function (err) {
+                    res.end();
+                })
+            } else {
+                res.status(resp.status).send(resp.data)
+            }
+        } else {
+            res.status(resp.status).send(resp.data)
+        }
     }).catch(error => {
         if (error.response) {
             res.status(error.response.status).send(error.response.data)
@@ -30,7 +48,7 @@ const postApi = (api, req, res, files = false) => {
     let timeout = 10000
     if (files) {
         const formData = new FormData()
-        formData.append("plano",  fs.createReadStream(req.files.plano.tempFilePath), "image.png")
+        formData.append("plano", fs.createReadStream(req.files.plano.tempFilePath), "image.png")
         body = formData
         timeout = 100000
         headers = {
