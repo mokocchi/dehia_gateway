@@ -16,7 +16,7 @@ const getApi = (api, req, res, download = false) => {
     api.get(req.path, { headers: req.headers }).then(resp => {
         if (download) {
             if (resp.status === 200) {
-                if (resp.data["educationalActivity"]){
+                if (resp.data["educationalActivity"]) {
                     filename = resp.data["educationalActivity"]["name"]
                 } else {
                     filename = "activity"
@@ -33,6 +33,18 @@ const getApi = (api, req, res, download = false) => {
         } else {
             res.status(resp.status).send(resp.data)
         }
+    }).catch(error => {
+        if (error.response) {
+            res.status(error.response.status).send(error.response.data)
+        } else {
+            errorResponse(error, res)
+        }
+    })
+}
+
+const getImage = (api, req, res) => {
+    api.get(req.path, { headers: req.headers, responseType: "stream" }).then(resp => {
+        resp.data.pipe(res)
     }).catch(error => {
         if (error.response) {
             res.status(error.response.status).send(error.response.data)
@@ -106,6 +118,7 @@ const deleteApi = (api, req, res) => {
 
 module.exports = {
     getApi,
+    getImage,
     postApi,
     putApi,
     patchApi,
