@@ -13,7 +13,7 @@ const errorResponse = (error, res) => {
 }
 
 const getApi = (api, req, res, download = false) => {
-    api.get(req.path, { headers: req.headers }).then(resp => {
+    api.get(req.url, { headers: req.headers }).then(resp => {
         if (download) {
             if (resp.status === 200) {
                 if (resp.data["educationalActivity"]) {
@@ -43,7 +43,7 @@ const getApi = (api, req, res, download = false) => {
 }
 
 const getImage = (api, req, res) => {
-    api.get(req.path, { headers: req.headers, responseType: "stream" }).then(resp => {
+    api.get(req.url, { headers: req.headers, responseType: "stream" }).then(resp => {
         resp.data.pipe(res)
     }).catch(error => {
         if (error.response) {
