@@ -52,6 +52,6 @@ app.use(function(req,res){
       });;
 });
 
-console.log("running on port 8000")
+console.log(`running on port ${process.env.PORT}`)
 
-app.listen(8000);
+app.listen(process.env.PORT);

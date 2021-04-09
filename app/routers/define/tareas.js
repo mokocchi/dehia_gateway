@@ -3,7 +3,7 @@ var router = express.Router()
 var hasAuthorization = require('../../controller/hasAuthorization')
 var {getApi, getImage, postApi, patchApi, putApi, deleteApi} = require('../utils') 
 
-const apiPrefix = '/api/v1.0'
+const apiPrefix = process.env.API_PREFIX;
 
 const apiAdapter = require('../apiAdapter')
 const api = apiAdapter(process.env.DEFINE_BASE_URL)
