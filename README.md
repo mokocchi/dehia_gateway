@@ -2,21 +2,21 @@
 A gateway for [DEHIA](link-sedici), a platform for managing and executing data collection activities that require human intervention.
 
 ## Contents
-- DEHIA
-- Installation
-  - Docker (recommended)
-  - Run locally (Linux)
-- Deploying to Heroku
-  - Prerequisites
-  - Deploy
-- Environment Variables
-- Endpoints
-  - General Endpoints
-  - Define Service Endpoints
-  - Auth Service Endpoints
-  - Collect Service Endpoints
-  - Results Service Endpoints
-- See Also
+- [DEHIA](#dehia)
+- [Installation](#installation)
+  - [Docker (recommended)](#docker-recommended)
+  - [Run locally (Linux)](#run-locally-linux)
+- [Deploying to Heroku](#deploying-to-heroku)
+  - [Prerequisites](#prerequisites)
+  - [Deployment](#deployment)
+- [Environment Variables](#environment-variables)
+- [Endpoints](#endpoints)
+  - [General Endpoints](#general-endpoints)
+  - [Define Service Endpoints](#define-service-endpoints)
+  - [Auth Service Endpoints](#auth-service-endpoints)
+  - [Collect Service Endpoints](#collect-service-endpoints)
+  - [Results Service Endpoints](#results-service-endpoints)
+- [See Also](#see-also)
 
 ## DEHIA
 DEHIA is a platform for Defining and Executing Human Intervention Activities. Its goal is to allow users without programming knowledge to create activities (sets of tasks, mainly for data collection) through a web authoring tool. The activities are exported to a configuration file and then "executed" (solved) from a mobile app. This kind of activities requires human intervention and cannot be solved automatically. 
