@@ -14,4 +14,4 @@ RUN curl -L https://github.com/a8m/envsubst/releases/download/v1.1.0/envsubst-`u
     chmod +x /tmp/envsubst && \
     mv /tmp/envsubst /usr/local/bin
 
-CMD [ "/bin/sh", "-c", "envsubst < .env.template > .env.local && node index.js" ]
+CMD [ "/bin/sh", "-c", "envsubst < .env.template > .env && node index.js" ]
